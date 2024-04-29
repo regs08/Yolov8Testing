@@ -8,13 +8,17 @@ define model
 model_path = os.path.join(working_dir, "saved_models", "yolov8n_float32.tflite")
 model = YOLO(model_path)
 
-camera = cv2.VideoCapture(0)  # 0 is usually the default camera
+picam2 = Picamera2()
+picam2.preview_configuration.main.size=(1920,1080)
+picam2.preview_configuration.main.format = "RGB888"
+picam2.start()
 
 try:
     while True:
         # Capture frame-by-frame
-        ret, frame = camera.read()
-        if not ret:
+        frame = picam2.capture_array()
+        if not frame:
+            print("frame not found!")
             break
 
         # Convert the image from BGR color (which OpenCV uses) to RGB color and run detections
@@ -27,5 +31,5 @@ try:
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
 finally:
-    camera.release()
+    picam2.stop()
     cv2.destroyAllWindows()

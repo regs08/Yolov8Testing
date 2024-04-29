@@ -3,4 +3,5 @@ opencv-python-headless==4.9.0.80
 tensorflow==2.13.0
 tflite-support==0.4.4
 ultralytics==8.2.3
-
+supervision==0.2.0
+torch==2.2.2
